@@ -1,0 +1,17 @@
+digraph G {
+    "to" [root=true];
+    "new" -> "worlds" [label="2", color="blue"];
+    "new" -> "civilizations" [label="4"];
+    "new" -> "life" [label="4"];
+    "worlds" -> "to" [label="2"];
+    "explore" -> "strange" [label="2", color="blue"];
+    "and" -> "new" [label="4"];
+    "to" -> "explore" [label="2", color="blue"];
+    "to" -> "seek" [label="4"];
+    "civilizations" -> "to" [label="3"];
+    "seek" -> "out" [label="4"];
+    "strange" -> "new" [label="2", color="blue"];
+    "life" -> "and" [label="4"];
+    "out" -> "new" [label="4"];
+    "Path length = 8" [label="Path length = 8", color="black", shape=none];
+}
