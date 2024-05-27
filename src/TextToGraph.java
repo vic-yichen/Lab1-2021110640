@@ -5,7 +5,7 @@ import java.io.IOException; // 导入处理输入输出异常的类
 import java.io.InputStreamReader; // 导入用于从字节流中读取字符的输入流
 import java.io.PrintWriter; // 导入用于打印格式化的文本输出的类
 import java.util.*; // 导入包含集合框架类和相关接口的类
-//B2B2B2
+//B2B2B22
 public class TextToGraph { // 定义名为 TextToGraph 的类
     private Map<String, Map<String, Integer>> graph = new HashMap<>(); // 创建一个图的邻接表
     private String rootWord = null; // 保存文本中的第一个单词作为根单词
