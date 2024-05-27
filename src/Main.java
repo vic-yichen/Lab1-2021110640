@@ -1,22 +1,21 @@
-import java.io.IOException;
+import java.io.IOException; // 导入处理输入输出异常的类
 import java.util.List;
-import java.util.Map;
+import java.util.Map; // 导入映射类
 import java.util.Scanner;
-
 
 public class Main {
     public static void main(String[] args) {
-        TextToGraph graph = new TextToGraph();
+        TextToGraph graph = new TextToGraph(); // 创建一个文本到图形的转换对象
 
         // 读取用户的命令行输入
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in); // 创建一个扫描器对象用于读取用户输入
         while (true) {
-            // 用于清空buff
+            // 用于清空buff，防止缓冲区未被完全读取
             try {
-                while(System.in.available() > 0) {
-                    scanner.nextLine();
+                while (System.in.available() > 0) { // 还有数据
+                    scanner.nextLine(); // 读取+丢弃
                 }
-            } catch (IOException ignored) {}
+            } catch (IOException ignored) {} // 捕获输入输出异常并忽略
 
             System.out.println("Select an option:");
             System.out.println("1. Display the directed graph");
@@ -32,9 +31,9 @@ public class Main {
                 case "1":
                     System.out.print("Enter the text file path: ");
                     String txtFile = scanner.nextLine();
-                    graph.readTxt(txtFile);
-                    graph.saveToDotFile("./out/text/output.dot");
-                    graph.showDirectedGraph("./out/text/output.dot", "./out/png/graph.png");
+                    graph.readTxt(txtFile); // 从文本文件中读取数据并构建图形
+                    graph.saveToDotFile("./out/text/output.dot"); // 将图形保存为DOT语言文件
+                    graph.showDirectedGraph("./out/text/output.dot", "./out/png/graph.png"); // 展示有向图
                     break;
 
                 case "2":
@@ -42,14 +41,14 @@ public class Main {
                     String word1 = scanner.nextLine();
                     System.out.print("Enter the second word: ");
                     String word2 = scanner.nextLine();
-                    String result = graph.queryBridgeWords(word1, word2);
-                    System.out.println(result);
+                    String result = graph.queryBridgeWords(word1, word2); // 查询桥接词
+                    System.out.println(result); // 打印result
                     break;
 
                 case "3":
                     System.out.print("Enter the input text: ");
                     String inputText = scanner.nextLine();
-                    String newText = graph.generateNewText(inputText);
+                    String newText = graph.generateNewText(inputText); // 生成包含桥接词的新文本
                     System.out.println("Generated new text: " + newText);
                     break;
 
@@ -58,56 +57,56 @@ public class Main {
                     word1 = scanner.nextLine();
                     System.out.print("Enter the second word (leave empty to calculate shortest paths to all nodes): ");
                     word2 = scanner.nextLine();
+                    int[] pathLength = new int[1]; // 存储最短路径长度，数组
 
-                    int[] pathLength = new int[1];
-
+                    // 仅输入一个词
                     if (word2.isEmpty()) {
-                        Map<String, Map<String, Integer>> graphData = graph.getGraph();
-                        for (String node : graphData.keySet()) {
-                            if (!node.equals(word1)) {
-                                List<List<String>> paths = graph.shortestPaths(word1, node, pathLength);
-                                if (!paths.isEmpty()) {
-                                    for (List<String> path : paths) {
-                                        System.out.println("Shortest path: " + String.join("->", path));
+                        Map<String, Map<String, Integer>> graphData = graph.getGraph(); // 获取图的数据
+                        for (String node : graphData.keySet()) { // 遍历图中的每个节点
+                            if (!node.equals(word1)) { // 如果节点不是第一个单词
+                                List<List<String>> paths = graph.shortestPaths(word1, node, pathLength); // 计算到该节点的最短路径
+                                if (!paths.isEmpty()) { // 如果最短路径不为空
+                                    for (List<String> path : paths) { // 遍历最短路径列表
+                                        System.out.println("Shortest path: " + String.join("->", path)); // 打印最短路径
                                     }
-                                    String outputFile = String.format("./out/text/shortest_path_%s_to_%s.dot", word1, node);
-                                    graph.saveToDotFile_color(outputFile, paths, pathLength[0]);
-                                    graph.showDirectedGraph(outputFile, String.format("./out/png/shortest_paths_%s_to_%s.png", word1, node));
-                                } else {
-                                    System.out.println("No shortest path found from " + word1 + " to " + node);
+                                    String outputFile = String.format("./out/text/shortest_path_%s_to_%s.dot", word1, node); // 定义输出文件路径
+                                    graph.saveToDotFile_color(outputFile, paths, pathLength[0]); // 将带有标记路径的DOT文件保存到指定路径
+                                    graph.showDirectedGraph(outputFile, String.format("./out/png/shortest_paths_%s_to_%s.png", word1, node)); // 展示最短路径的图形
+                                } else { // 如果最短路径为空
+                                    System.out.println("No shortest path found from " + word1 + " to " + node); // 打印未找到最短路径的消息
                                 }
                             }
                         }
-                    } else {
-                        List<List<String>> shortestPaths = graph.shortestPaths(word1, word2, pathLength);
-                        if (!shortestPaths.isEmpty()) {
-                            for (List<String> path : shortestPaths) {
-                                System.out.println("Shortest path: " + String.join("->", path));
+                    } else { // 如果第二个单词不为空
+                        List<List<String>> shortestPaths = graph.shortestPaths(word1, word2, pathLength); // 计算两个单词之间的最短路径
+                        if (!shortestPaths.isEmpty()) { // 如果最短路径不为空
+                            for (List<String> path : shortestPaths) { // 遍历最短路径列表
+                                System.out.println("Shortest path: " + String.join("->", path)); // 打印最短路径
                             }
-                            String outputFile = "./out/text/shortest_path.dot";
-                            graph.saveToDotFile_color(outputFile, shortestPaths, pathLength[0]);
-                            graph.showDirectedGraph(outputFile, "./out/png/shortest_paths.png");
-                        } else {
-                            System.out.println("No shortest path found from " + word1 + " to " + word2);
+                            String outputFile = "./out/text/shortest_path.dot"; // 定义输出文件路径
+                            graph.saveToDotFile_color(outputFile, shortestPaths, pathLength[0]); // 将带有标记路径的DOT文件保存到指定路径
+                            graph.showDirectedGraph(outputFile, "./out/png/shortest_paths.png"); // 展示最短路径的图形
+                        } else { // 如果最短路径为空
+                            System.out.println("No shortest path found from " + word1 + " to " + word2); // 打印未找到最短路径的消息
                         }
                     }
                     break;
 
-                case "5":
-                    System.out.print("Enter the output file path for random walk: ");
-                    String outputFile = scanner.nextLine();
-                    String result2 = graph.randomWalk(outputFile);
-                    System.out.println(result2);
+                case "5": // 如果选择5
+                    System.out.print("Enter the output file path for random walk: "); // 提示用户输入随机漫步的输出文件路径
+                    String outputFile = scanner.nextLine(); // 读取用户输入的输出文件路径
+                    String result2 = graph.randomWalk(outputFile); // 执行随机漫步
+                    System.out.println(result2); // 打印随机漫步结果
                     break;
 
-                case "6":
-                    scanner.close();
-                    System.out.println("Exiting...");
-                    return;
+                case "6": // 如果选择6
+                    scanner.close(); // 关闭扫描器
+                    System.out.println("Exiting..."); // 打印退出消息
+                    return; // 退出程序
 
-                default:
-                    System.out.println("Invalid choice. Please try again.");
-                    break;
+                default: // 如果选择无效
+                    System.out.println("Invalid choice. Please try again."); // 打印选择无效的消息
+                    break; // 跳出switch语句
             }
         }
     }

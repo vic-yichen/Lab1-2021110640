@@ -1,4 +1,11 @@
+to
+seek
+out
 new
 worlds
 to
-seek
+to->seek
+seek->out
+out->new
+new->worlds
+worlds->to

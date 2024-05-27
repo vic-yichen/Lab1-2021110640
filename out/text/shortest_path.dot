@@ -1,7 +1,7 @@
 digraph G {
     "to" [root=true];
     "new" -> "worlds" [label="1"];
-    "new" -> "civilizations" [label="1", color="yellow"];
+    "new" -> "civilizations" [label="1"];
     "new" -> "life" [label="1"];
     "worlds" -> "to" [label="1"];
     "explore" -> "strange" [label="1", color="green"];
@@ -12,5 +12,5 @@ digraph G {
     "strange" -> "new" [label="1", color="green"];
     "life" -> "and" [label="1"];
     "out" -> "new" [label="1", color="orange"];
-    "Path length = 4" [label="Path length = 4", color="black", shape=none];
+    "Path length = 3" [label="Path length = 3", color="black", shape=none];
 }
