@@ -1,5 +1,5 @@
 import java.io.BufferedReader; // 导入用于读取字符流的缓冲输入流类
-import java.io.File; // 导入表示文件和目录路径名的抽象表示形式的类
+import java.io.File;
 import java.io.FileWriter; // 导入用于写入字符流的便捷类
 import java.io.IOException; // 导入处理输入输出异常的类
 import java.io.InputStreamReader; // 导入用于从字节流中读取字符的输入流
@@ -12,33 +12,33 @@ public class TextToGraph { // 定义名为 TextToGraph 的类
     private Random random = new Random(); // 创建一个随机数生成器
     private boolean stopRandomWalk = false; // 指示是否停止随机漫步的标志
 
-    // 读取文本文件并构建有向图
-    public void readTxt(String txtFile) { // 定义读取文本文件的方法
-        try { // 尝试执行下面的代码
+    // 读取文本文件并构建有向图 n+m:单词+边数
+    public void readTxt(String txtFile) {
+        try {
             Scanner scanner = new Scanner(new File(txtFile)); // 创建一个文件扫描器以读取文件
             String lastWord = null; // 保存上一个单词的变量
 
             while (scanner.hasNextLine()) { // 循环直到文件的末尾
                 String line = scanner.nextLine().toLowerCase(); // 读取文件的下一行并将其转换为小写
-                String[] words = line.split("[^a-zA-Z]+"); // 使用正则表达式将行拆分为单词
+                String[] words = line.split("[^a-zA-Z]+"); // 使用正则表达式将行拆分为单词，将非字母字符作为分隔符
                 String[] filteredWords = Arrays.stream(words) // 使用流过滤空单词
                         .filter(word -> !word.isEmpty())
                         .toArray(String[]::new); // 将过滤后的单词转换为数组
 
-                if (filteredWords.length == 0) continue; // 如果过滤后的单词数为零，则继续下一次循环
+                if (filteredWords.length == 0) continue; // 当前行没有有效单词
                 if (rootWord == null) { // 如果根单词为空
-                    rootWord = filteredWords[0]; // 将第一个过滤后的单词作为根单词
+                    rootWord = filteredWords[0]; // 将当前行的第一个有效单词设为根单词
                 }
 
                 if (lastWord != null) { // 如果上一个单词不为空
-                    addEdge(lastWord, filteredWords[0], 1); // 将上一个单词与当前单词之间建立一条边
+                    addEdge(lastWord, filteredWords[0], 1); // 将上一个单词与当前行的第一个单词之间建立一条边，权重为1
                 }
 
                 for (int i = 0; i < filteredWords.length - 1; i++) { // 循环直到倒数第二个单词
                     addEdge(filteredWords[i], filteredWords[i + 1], 1); // 将当前单词与下一个单词之间建立一条边
                 }
                 lastWord = filteredWords[filteredWords.length - 1]; // 将当前单词设为上一个单词
-                graph.putIfAbsent(lastWord, new HashMap<>()); // 如果图中不存在当前单词，则将其加入图中
+                graph.putIfAbsent(lastWord, new HashMap<>()); // 如果图中不存在当前单词，则将其加入图中，因为其为last单词
             }
             scanner.close(); // 关闭文件扫描器
         } catch (IOException e) { // 捕获输入输出异常
@@ -46,16 +46,18 @@ public class TextToGraph { // 定义名为 TextToGraph 的类
         }
     }
 
-    // 向图中添加边
-    private void addEdge(String from, String to, int weight) { // 定义向图中添加边的方法
-        graph.putIfAbsent(from, new HashMap<>()); // 如果图中不存在起始单词，则将其加入图中
+    // 向图中添加边 1 哈希表
+    private void addEdge(String from, String to, int weight) {
+        graph.putIfAbsent(from, new HashMap<>()); // 如果图中不存在起始单词，则将其加入图中，邻居列表为空
         Map<String, Integer> edges = graph.get(from); // 获取起始单词的邻居列表
-        edges.put(to, edges.getOrDefault(to, 0) + weight); // 将目标单词添加到邻居列表中并更新权重
+        edges.put(to, edges.getOrDefault(to, 0) + weight); // 将目标单词添加到邻居列表中，如果已经存在则累加权重
     }
 
-    // 将图保存为DOT语言文件
-    public void saveToDotFile(String outputFile) { // 定义将图保存为DOT语言文件的方法
-        try (PrintWriter writer = new PrintWriter(new FileWriter(outputFile))) { // 使用 try-with-resources 语句初始化 PrintWriter
+
+    // 将图保存为DOT语言文件 n+m
+    public void saveToDotFile(String outputFile) {
+        // 初始化 PrintWriter
+        try (PrintWriter writer = new PrintWriter(new FileWriter(outputFile))) {
             writer.println("digraph G {"); // 输出 DOT 文件的起始部分
             if (rootWord != null) { // 如果根单词不为空
                 writer.printf("    \"%s\" [root=true];\n", rootWord); // 输出根单词的标记
@@ -73,8 +75,8 @@ public class TextToGraph { // 定义名为 TextToGraph 的类
     }
 
     // 展示生成的有向图
-    public void showDirectedGraph(String dotFilePath, String outputImagePath) { // 定义展示有向图的方法
-        try { // 尝试执行下面的代码
+    public void showDirectedGraph(String dotFilePath, String outputImagePath) {
+        try {
             String[] cmd = {"dot", "-Tpng", dotFilePath, "-o", outputImagePath}; // 创建命令行参数数组
             Process process = Runtime.getRuntime().exec(cmd); // 在运行时执行命令行命令
             process.waitFor(); // 等待进程结束
@@ -100,24 +102,25 @@ public class TextToGraph { // 定义名为 TextToGraph 的类
         }
     }
 
-    // 查询桥接词
-    public String queryBridgeWords(String word1, String word2) { // 定义查询桥接词的方法
-        word1 = word1.toLowerCase(); // 将输入的第一个单词转换为小写
-        word2 = word2.toLowerCase(); // 将输入的第二个单词转换为小写
+    // 查询桥接词 k
+    //k 是 word1 的邻居数
+    public String queryBridgeWords(String word1, String word2) {
+        word1 = word1.toLowerCase(); // 转换为小写
+        word2 = word2.toLowerCase();
 
-        if (!graph.containsKey(word1) && !graph.containsKey(word2)) { // 如果图中都不包含两个单词
-            return String.format("No \"%s\" and \"%s\" in the graph!", word1, word2); // 返回没有这两个单词的提示消息
-        } else if (!graph.containsKey(word1)) { // 如果图中不包含第一个单词
-            return String.format("No \"%s\" in the graph!", word1); // 返回没有第一个单词的提示消息
-        } else if (!graph.containsKey(word2)) { // 如果图中不包含第二个单词
-            return String.format("No \"%s\" in the graph!", word2); // 返回没有第二个单词的提示消息
+        if (!graph.containsKey(word1) && !graph.containsKey(word2)) { // 都不包含
+            return String.format("No \"%s\" and \"%s\" in the graph!", word1, word2);
+        } else if (!graph.containsKey(word1)) { // 不包含第一个
+            return String.format("No \"%s\" in the graph!", word1);
+        } else if (!graph.containsKey(word2)) { // 不包含第二个
+            return String.format("No \"%s\" in the graph!", word2);
         }
         Set<String> bridgeWords = new HashSet<>(); // 创建一个存储桥接词的集合
         Map<String, Integer> word1Edges = graph.get(word1); // 获取第一个单词的邻居列表
 
-        for (String word3 : word1Edges.keySet()) { // 遍历第一个单词的每个邻居
-            Map<String, Integer> word3Edges = graph.get(word3); // 获取当前邻居的邻居列表
-            if (word3Edges.containsKey(word2)) { // 如果当前邻居也是第二个单词的邻居
+        for (String word3 : word1Edges.keySet()) { // 遍历第一个单词的每个邻居，word1Edges 是一个 Map，存储了第一个单词的邻居列表，keySet() 方法返回了这个 Map 中所有键的集合，即第一个单词的所有邻居
+            Map<String, Integer> word3Edges = graph.get(word3); // 获取当前邻居的邻居列表，键是邻居的名称，值是邻居之间的权重
+            if (word3Edges.containsKey(word2)) { // 在当前邻居的邻居列表中检查是否包含第二个单词
                 bridgeWords.add(word3); // 将当前邻居作为桥接词加入集合
             }
         }
@@ -143,9 +146,9 @@ public class TextToGraph { // 定义名为 TextToGraph 的类
         }
     }
 
-    // 生成新的文本
-    public String generateNewText(String inputText) { // 定义生成新文本的方法
-        String[] words = inputText.toLowerCase().split("[^a-zA-Z]+"); // 使用正则表达式将输入文本拆分为单词
+    // 生成新的文本 n+k 输入文本单词数+getbw
+    public String generateNewText(String inputText) {
+        String[] words = inputText.toLowerCase().split("[^a-zA-Z]+");
         StringBuilder newText = new StringBuilder(); // 创建一个用于构建新文本的字符串生成器
 
         for (int i = 0; i < words.length - 1; i++) { // 遍历输入文本中的每个单词（除了最后一个单词）
@@ -160,10 +163,10 @@ public class TextToGraph { // 定义名为 TextToGraph 的类
         return newText.toString(); // 返回生成的新文本
     }
 
-    // 获取桥接词
-    private String getBridgeWord(String word1, String word2) { // 定义获取桥接词的方法
-        if (!graph.containsKey(word1)) { // 如果图中不包含第一个单词
-            return null; // 返回空值
+    // 获取桥接词 k 邻居数
+    private String getBridgeWord(String word1, String word2) {
+        if (!graph.containsKey(word1)) { // 图中不包含第一个单词
+            return null;
         }
         List<String> bridgeWords = new ArrayList<>(); // 创建一个存储桥接词的列表
         Map<String, Integer> word1Edges = graph.get(word1); // 获取第一个单词的邻居列表
@@ -173,16 +176,16 @@ public class TextToGraph { // 定义名为 TextToGraph 的类
             }
         }
 
-        if (bridgeWords.isEmpty()) { // 如果没有找到桥接词
-            return null; // 返回空值
+        if (bridgeWords.isEmpty()) {
+            return null;
         }
         return bridgeWords.get(random.nextInt(bridgeWords.size())); // 返回随机选择的桥接词
     }
 
-    // 将图保存为带有标记路径的DOT文件
-    public void saveToDotFile_color(String outputFile, List<List<String>> shortestPaths, int pathLength) { // 定义将图保存为带有标记路径的DOT文件的方法
+    // 将图保存为带有标记路径的DOT文件 n+m+p,最短路径中边的总数
+    public void saveToDotFile_color(String outputFile, List<List<String>> shortestPaths, int pathLength) {
         List<String> dotLines = new ArrayList<>(); // 创建一个存储DOT文件行的列表
-        List<String> color = new ArrayList<>(Arrays.asList("green", "orange", "pink", "yellow")); // 创建一个颜色列表
+        List<String> color = new ArrayList<>(Arrays.asList("green", "orange", "pink", "yellow"));
 
         int num_shortPath = shortestPaths.size(); // 获取最短路径的数量
         if (rootWord != null) { // 如果根单词不为空
@@ -206,7 +209,7 @@ public class TextToGraph { // 定义名为 TextToGraph 的类
                         }
                     }
                 }
-                if (flag == -2) { // 如果当前边需要特殊颜色
+                if (flag == -2) {
                     dotLines.add(String.format("    \"%s\" -> \"%s\" [label=\"%d\", color=\"yellow\"];", from, to, weight)); // 将当前边添加到DOT文件行中，并设置特殊颜色
                 } else if (flag == -1) { // 如果当前边不在任何最短路径中
                     dotLines.add(String.format("    \"%s\" -> \"%s\" [label=\"%d\"];", from, to, weight)); // 将当前边添加到DOT文件行中
@@ -219,25 +222,26 @@ public class TextToGraph { // 定义名为 TextToGraph 的类
 
         dotLines.add(String.format("    \"Path length = %d\" [label=\"Path length = %d\", color=\"black\", shape=none];", pathLength, pathLength)); // 添加标记路径长度的行
 
-        try (PrintWriter writer = new PrintWriter(new FileWriter(outputFile))) { // 使用 try-with-resources 语句初始化 PrintWriter
-            writer.println("digraph G {"); // 输出 DOT 文件的起始部分
-            for (String line : dotLines) { // 遍历 DOT 文件行列表
-                writer.println(line); // 将每行写入 DOT 文件
+        try (PrintWriter writer = new PrintWriter(new FileWriter(outputFile))) {
+            writer.println("digraph G {");
+            for (String line : dotLines) {
+                writer.println(line);
             }
-            writer.println("}"); // 输出 DOT 文件的结束部分
-        } catch (IOException e) { // 捕获输入输出异常
-            e.printStackTrace(); // 打印异常信息
+            writer.println("}");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
-    // 计算最短路径
-    public List<List<String>> shortestPaths(String word1, String word2, int[] pathLength) { // 定义计算最短路径的方法
+    // 计算最短路径�
+    //O(nlogn+m) dijkstra
+    public List<List<String>> shortestPaths(String word1, String word2, int[] pathLength) {
         List<List<String>> resultPaths = new ArrayList<>(); // 创建一个存储最短路径的列表
 
-        word1 = word1.toLowerCase(); // 将输入的第一个单词转换为小写
-        word2 = word2.toLowerCase(); // 将输入的第二个单词转换为小写
+        word1 = word1.toLowerCase();
+        word2 = word2.toLowerCase();
 
-        if (!graph.containsKey(word1) || !graph.containsKey(word2)) { // 如果图中不包含输入的单词
+        if (!graph.containsKey(word1) || !graph.containsKey(word2)) { // 不包含
             return resultPaths; // 返回空的最短路径列表
         }
 
@@ -252,7 +256,7 @@ public class TextToGraph { // 定义名为 TextToGraph 的类
         distances.put(word1, 0); // 将起始单词与自身之间的距离初始化为0
         priorityQueue.add(new AbstractMap.SimpleEntry<>(word1, 0)); // 将起始单词添加到优先级队列中
 
-        while (!priorityQueue.isEmpty()) { // 循环直到优先级队列为空
+        while (!priorityQueue.isEmpty()) { // 直到优先级队列为空
             Map.Entry<String, Integer> current = priorityQueue.poll(); // 从优先级队列中取出距离最小的节点
             String currentNode = current.getKey(); // 获取当前节点
             int currentDistance = current.getValue(); // 获取当前节点与起始单词之间的距离
@@ -292,20 +296,21 @@ public class TextToGraph { // 定义名为 TextToGraph 的类
         return resultPaths; // 返回最短路径列表
     }
 
+    //p 是所有最短路径中节点的总数
     private void findPaths(Map<String, List<String>> predecessors, String current, String start, LinkedList<String> path, List<List<String>> resultPaths) {
-        path.add(current);
-        if (current.equals(start)) {
-            resultPaths.add(new ArrayList<>(path));
-        } else {
-            for (String predecessor : predecessors.get(current)) {
-                findPaths(predecessors, predecessor, start, path, resultPaths);
+        path.add(current); // 将当前节点添加到路径中
+        if (current.equals(start)) { // 如果当前节点等于起始节点
+            resultPaths.add(new ArrayList<>(path)); // 将当前路径添加到结果路径列表中
+        } else { // 如果当前节点不是起始节点
+            for (String predecessor : predecessors.get(current)) { // 遍历当前节点的前驱节点列表
+                findPaths(predecessors, predecessor, start, path, resultPaths); // 递归调用 findPaths 方法，探索前驱节点的路径
             }
         }
-        path.removeLast();
+        path.removeLast(); // 将当前节点从路径中移除，以便在回溯时重新探索其他路径
     }
 
-    // 随机漫步
-    // 随机游走
+
+    // 随机游走 m all边
     public String randomWalk(String outputFile) {
         StringBuilder result = new StringBuilder();
         if (graph.isEmpty()) {
@@ -358,22 +363,23 @@ public class TextToGraph { // 定义名为 TextToGraph 的类
         return result.toString();
     }
 
-    // 选择下一个节点
+    // 选择下一个节点 k 邻居数
     private String chooseNextNode(Map<String, Integer> neighbors) {
-        int totalWeight = neighbors.values().stream().mapToInt(Integer::intValue).sum();
-        int randomWeight = random.nextInt(totalWeight);
+        int totalWeight = neighbors.values().stream().mapToInt(Integer::intValue).sum(); // 计算所有邻居节点的总权重
+        int randomWeight = random.nextInt(totalWeight); // 生成一个随机权重
 
-        for (Map.Entry<String, Integer> neighbor : neighbors.entrySet()) {
-            randomWeight -= neighbor.getValue();
-            if (randomWeight < 0) {
-                return neighbor.getKey(); // 返回下一个节点
+        for (Map.Entry<String, Integer> neighbor : neighbors.entrySet()) { // 遍历邻居节点及其权重
+            randomWeight -= neighbor.getValue(); // 减去当前邻居节点的权重
+            if (randomWeight < 0) { // 如果随机权重小于0
+                return neighbor.getKey(); // 返回对应的邻居节点作为下一个节点
             }
         }
 
         return null; // 如果没有下一个节点可选，则返回null
     }
 
-    // 获取一个随机的起始节点
+
+    // 获取一个随机的起始节点 n 节点数
     private String getRandomStartNode() {
         List<String> words = new ArrayList<>(graph.keySet());
         return words.get(random.nextInt(words.size()));
@@ -382,4 +388,4 @@ public class TextToGraph { // 定义名为 TextToGraph 的类
     public Map<String, Map<String, Integer>> getGraph() { // 定义获取图的方法
         return graph; // 返回图
     }
-} // 类定义结束
+}

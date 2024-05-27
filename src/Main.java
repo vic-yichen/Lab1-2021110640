@@ -72,12 +72,15 @@ public class Main {
                                     String outputFile = String.format("./out/text/shortest_path_%s_to_%s.dot", word1, node); // 定义输出文件路径
                                     graph.saveToDotFile_color(outputFile, paths, pathLength[0]); // 将带有标记路径的DOT文件保存到指定路径
                                     graph.showDirectedGraph(outputFile, String.format("./out/png/shortest_paths_%s_to_%s.png", word1, node)); // 展示最短路径的图形
-                                } else { // 如果最短路径为空
+                                }
+                                else { // 如果最短路径为空
                                     System.out.println("No shortest path found from " + word1 + " to " + node); // 打印未找到最短路径的消息
                                 }
                             }
                         }
-                    } else { // 如果第二个单词不为空
+                    }
+                    //输入两个单词
+                    else {
                         List<List<String>> shortestPaths = graph.shortestPaths(word1, word2, pathLength); // 计算两个单词之间的最短路径
                         if (!shortestPaths.isEmpty()) { // 如果最短路径不为空
                             for (List<String> path : shortestPaths) { // 遍历最短路径列表
@@ -92,21 +95,21 @@ public class Main {
                     }
                     break;
 
-                case "5": // 如果选择5
-                    System.out.print("Enter the output file path for random walk: "); // 提示用户输入随机漫步的输出文件路径
-                    String outputFile = scanner.nextLine(); // 读取用户输入的输出文件路径
+                case "5":
+                    System.out.print("Enter the output file path for random walk: ");
+                    String outputFile = scanner.nextLine();
                     String result2 = graph.randomWalk(outputFile); // 执行随机漫步
-                    System.out.println(result2); // 打印随机漫步结果
+                    System.out.println(result2);
                     break;
 
-                case "6": // 如果选择6
-                    scanner.close(); // 关闭扫描器
-                    System.out.println("Exiting..."); // 打印退出消息
-                    return; // 退出程序
+                case "6":
+                    scanner.close();
+                    System.out.println("Exiting...");
+                    return;
 
-                default: // 如果选择无效
-                    System.out.println("Invalid choice. Please try again."); // 打印选择无效的消息
-                    break; // 跳出switch语句
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+                    break;
             }
         }
     }
