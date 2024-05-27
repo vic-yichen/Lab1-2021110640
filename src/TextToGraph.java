@@ -233,8 +233,8 @@ public class TextToGraph { // 定义名为 TextToGraph 的类
         }
     }
 
-    // 计算最短路径�
-    //O(nlogn+m) dijkstra
+    // 计算最短路径
+    // O(nlogn+m) dijkstra
     public List<List<String>> shortestPaths(String word1, String word2, int[] pathLength) {
         List<List<String>> resultPaths = new ArrayList<>(); // 创建一个存储最短路径的列表
 
