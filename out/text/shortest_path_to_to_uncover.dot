@@ -1,0 +1,36 @@
+digraph G {
+    "to" [root=true];
+    "new" -> "worlds" [label="1"];
+    "new" -> "civilizations" [label="3"];
+    "new" -> "life" [label="3"];
+    "worlds" -> "to" [label="1"];
+    "explore" -> "strange" [label="1"];
+    "embrace" -> "the" [label="2"];
+    "cosmos" -> "to" [label="2"];
+    "uncover" -> "the" [label="2"];
+    "stars" -> "to" [label="1"];
+    "seek" -> "out" [label="3"];
+    "secrets" -> "of" [label="2"];
+    "strange" -> "new" [label="1"];
+    "life" -> "and" [label="3"];
+    "venture" -> "into" [label="2"];
+    "space" -> "to" [label="2"];
+    "out" -> "new" [label="3"];
+    "the" -> "wonders" [label="2"];
+    "the" -> "vast" [label="2"];
+    "the" -> "stars" [label="2"];
+    "the" -> "secrets" [label="2"];
+    "into" -> "the" [label="2"];
+    "wonders" -> "of" [label="2"];
+    "and" -> "new" [label="3"];
+    "of" -> "the" [label="2"];
+    "of" -> "space" [label="2"];
+    "to" -> "explore" [label="1"];
+    "to" -> "embrace" [label="2"];
+    "to" -> "uncover" [label="2", color="green"];
+    "to" -> "seek" [label="3"];
+    "to" -> "venture" [label="2"];
+    "vast" -> "cosmos" [label="2"];
+    "civilizations" -> "to" [label="3"];
+    "Path length = 2" [label="Path length = 2", color="black", shape=none];
+}
