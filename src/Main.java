@@ -2,12 +2,10 @@ import java.io.IOException; // 导入处理输入输出异常的类
 import java.util.List;
 import java.util.Map; // 导入映射类
 import java.util.Scanner;
-<<<<<<< HEAD
 //B1B1B1B1
-=======
 //修改修改修改注释
 //changeB2
->>>>>>> B2
+//IDE
 public class Main {
     public static void main(String[] args) {
         TextToGraph graph = new TextToGraph(); // 创建一个文本到图形的转换对象
