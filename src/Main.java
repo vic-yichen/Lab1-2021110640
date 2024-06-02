@@ -2,7 +2,7 @@ import java.io.IOException; // 导入处理输入输出异常的类
 import java.util.List;
 import java.util.Map; // 导入映射类
 import java.util.Scanner;
-//修改修改修改注释
+
 public class Main {
     public static void main(String[] args) {
         TextToGraph graph = new TextToGraph(); // 创建一个文本到图形的转换对象
@@ -67,24 +67,23 @@ public class Main {
                                 List<List<String>> paths = graph.shortestPaths(word1, node, pathLength); // 计算到该节点的最短路径
                                 if (!paths.isEmpty()) { // 如果最短路径不为空
                                     for (List<String> path : paths) { // 遍历最短路径列表
-                                        System.out.println("Shortest path: " + String.join("->", path)); // 打印最短路径
+                                        System.out.println("Shortest path: " + String.join("->", path) + ", Weight: " + pathLength[0]); // 打印最短路径及其权重
                                     }
                                     String outputFile = String.format("./out/text/shortest_path_%s_to_%s.dot", word1, node); // 定义输出文件路径
                                     graph.saveToDotFile_color(outputFile, paths, pathLength[0]); // 将带有标记路径的DOT文件保存到指定路径
                                     graph.showDirectedGraph(outputFile, String.format("./out/png/shortest_paths_%s_to_%s.png", word1, node)); // 展示最短路径的图形
-                                }
-                                else { // 如果最短路径为空
+                                } else { // 如果最短路径为空
                                     System.out.println("No shortest path found from " + word1 + " to " + node); // 打印未找到最短路径的消息
                                 }
                             }
                         }
                     }
-                    //输入两个单词
+                    // 输入两个单词
                     else {
                         List<List<String>> shortestPaths = graph.shortestPaths(word1, word2, pathLength); // 计算两个单词之间的最短路径
                         if (!shortestPaths.isEmpty()) { // 如果最短路径不为空
                             for (List<String> path : shortestPaths) { // 遍历最短路径列表
-                                System.out.println("Shortest path: " + String.join("->", path)); // 打印最短路径
+                                System.out.println("Shortest path: " + String.join("->", path) + ", Weight: " + pathLength[0]); // 打印最短路径及其权重
                             }
                             String outputFile = "./out/text/shortest_path.dot"; // 定义输出文件路径
                             graph.saveToDotFile_color(outputFile, shortestPaths, pathLength[0]); // 将带有标记路径的DOT文件保存到指定路径
@@ -114,3 +113,4 @@ public class Main {
         }
     }
 }
+
