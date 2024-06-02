@@ -1,0 +1,15 @@
+// display_graph
+digraph {
+	rankdir=LR
+	End [color="#FF9966" fillcolor="#FFCC99" fontcolor="#4d4d4d" shape=box style="rounded, filled"]
+	"Execute Graphviz Command to Generate Image" [color="#FF9966" fillcolor="#FFCC99" fontcolor="#4d4d4d" shape=box style="rounded, filled"]
+	"Open Image with Default Viewer" [color="#FF9966" fillcolor="#FFCC99" fontcolor="#4d4d4d" shape=box style="rounded, filled"]
+	"Save DOT File" [color="#FF9966" fillcolor="#FFCC99" fontcolor="#4d4d4d" shape=box style="rounded, filled"]
+	Start [color="#FF9966" fillcolor="#FFCC99" fontcolor="#4d4d4d" shape=box style="rounded, filled"]
+	"Convert Graph to DOT Format" [color="#FF9966" fillcolor="#FFCC99" fontcolor="#4d4d4d" shape=box style="rounded, filled"]
+	Start -> "Convert Graph to DOT Format" [color="#FF9966" fontcolor="#CC6600" fontsize=10]
+	"Convert Graph to DOT Format" -> "Save DOT File" [color="#FF9966" fontcolor="#CC6600" fontsize=10]
+	"Save DOT File" -> "Execute Graphviz Command to Generate Image" [color="#FF9966" fontcolor="#CC6600" fontsize=10]
+	"Execute Graphviz Command to Generate Image" -> "Open Image with Default Viewer" [color="#FF9966" fontcolor="#CC6600" fontsize=10]
+	"Open Image with Default Viewer" -> End [color="#FF9966" fontcolor="#CC6600" fontsize=10]
+}
