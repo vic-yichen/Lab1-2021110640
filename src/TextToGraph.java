@@ -239,6 +239,7 @@ public class TextToGraph { // 定义名为 TextToGraph 的类
     // O(nlogn+m) dijkstra
     public List<List<String>> shortestPaths(String word1, String word2, int[] pathLength) {
         List<List<String>> resultPaths = new ArrayList<>(); // 创建一个存储最短路径的列表
+        List<Integer> resultWeights = new ArrayList<>(); // 创建一个存储路径权重的列表
 
         word1 = word1.toLowerCase();
         word2 = word2.toLowerCase();
@@ -290,22 +291,27 @@ public class TextToGraph { // 定义名为 TextToGraph 的类
         }
 
         LinkedList<String> path = new LinkedList<>(); // 创建一个存储路径的链表
-        findPaths(predecessors, word2, word1, path, resultPaths); // 查找所有最短路径
+        findPaths(predecessors, word2, word1, path, resultPaths, resultWeights, distances.get(word2)); // 查找所有最短路径
 
         for (List<String> resultPath : resultPaths) { // 遍历最短路径列表
             Collections.reverse(resultPath); // 反转路径顺序
         }
+
+        System.out.println("Shortest path weight: " + distances.get(word2)); // 输出最短路径权重
+
         return resultPaths; // 返回最短路径列表
     }
 
     //p 是所有最短路径中节点的总数
-    private void findPaths(Map<String, List<String>> predecessors, String current, String start, LinkedList<String> path, List<List<String>> resultPaths) {
+    private void findPaths(Map<String, List<String>> predecessors, String current, String start, LinkedList<String> path, List<List<String>> resultPaths, List<Integer> resultWeights, int currentWeight) {
         path.add(current); // 将当前节点添加到路径中
         if (current.equals(start)) { // 如果当前节点等于起始节点
             resultPaths.add(new ArrayList<>(path)); // 将当前路径添加到结果路径列表中
+            resultWeights.add(currentWeight); // 将当前路径的权重添加到结果权重列表中
         } else { // 如果当前节点不是起始节点
             for (String predecessor : predecessors.get(current)) { // 遍历当前节点的前驱节点列表
-                findPaths(predecessors, predecessor, start, path, resultPaths); // 递归调用 findPaths 方法，探索前驱节点的路径
+                int edgeWeight = graph.get(predecessor).get(current); // 获取当前边的权重
+                findPaths(predecessors, predecessor, start, path, resultPaths, resultWeights, currentWeight - edgeWeight); // 递归调用 findPaths 方法，探索前驱节点的路径
             }
         }
         path.removeLast(); // 将当前节点从路径中移除，以便在回溯时重新探索其他路径
