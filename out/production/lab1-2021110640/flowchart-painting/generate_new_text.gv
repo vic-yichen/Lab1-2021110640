@@ -1,0 +1,21 @@
+// generate_new_text
+digraph {
+	rankdir=LR
+	End [color="#FF9966" fillcolor="#FFCC99" fontcolor="#4d4d4d" shape=box style="rounded, filled"]
+	"Insert Bridge Words between Pair" [color="#FF9966" fillcolor="#FFCC99" fontcolor="#4d4d4d" shape=box style="rounded, filled"]
+	"Split Text into Words" [color="#FF9966" fillcolor="#FFCC99" fontcolor="#4d4d4d" shape=box style="rounded, filled"]
+	"New Text Construction Completed" [color="#FF9966" fillcolor="#FFCC99" fontcolor="#4d4d4d" shape=box style="rounded, filled"]
+	"Initialize New Text" [color="#FF9966" fillcolor="#FFCC99" fontcolor="#4d4d4d" shape=box style="rounded, filled"]
+	"Read Input Text" [color="#FF9966" fillcolor="#FFCC99" fontcolor="#4d4d4d" shape=box style="rounded, filled"]
+	Start [color="#FF9966" fillcolor="#FFCC99" fontcolor="#4d4d4d" shape=box style="rounded, filled"]
+	"For Each Pair of Consecutive Words" [color="#FF9966" fillcolor="#FFCC99" fontcolor="#4d4d4d" shape=box style="rounded, filled"]
+	"Find Bridge Words" [color="#FF9966" fillcolor="#FFCC99" fontcolor="#4d4d4d" shape=box style="rounded, filled"]
+	Start -> "Read Input Text" [color="#FF9966" fontcolor="#CC6600" fontsize=10]
+	"Read Input Text" -> "Split Text into Words" [color="#FF9966" fontcolor="#CC6600" fontsize=10]
+	"Split Text into Words" -> "Initialize New Text" [color="#FF9966" fontcolor="#CC6600" fontsize=10]
+	"Initialize New Text" -> "For Each Pair of Consecutive Words" [color="#FF9966" fontcolor="#CC6600" fontsize=10]
+	"For Each Pair of Consecutive Words" -> "Find Bridge Words" [color="#FF9966" fontcolor="#CC6600" fontsize=10]
+	"Find Bridge Words" -> "Insert Bridge Words between Pair" [color="#FF9966" fontcolor="#CC6600" fontsize=10]
+	"Insert Bridge Words between Pair" -> "New Text Construction Completed" [color="#FF9966" fontcolor="#CC6600" fontsize=10]
+	"New Text Construction Completed" -> End [color="#FF9966" fontcolor="#CC6600" fontsize=10]
+}

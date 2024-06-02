@@ -1,0 +1,19 @@
+// text_to_graph
+digraph {
+	rankdir=LR
+	End [color="#FF9966" fillcolor="#FFCC99" fontcolor="#4d4d4d" shape=box style="rounded, filled"]
+	"Split Text into Words" [color="#FF9966" fillcolor="#FFCC99" fontcolor="#4d4d4d" shape=box style="rounded, filled"]
+	"Initialize Graph" [color="#FF9966" fillcolor="#FFCC99" fontcolor="#4d4d4d" shape=box style="rounded, filled"]
+	"Add/Update Edge in Graph" [color="#FF9966" fillcolor="#FFCC99" fontcolor="#4d4d4d" shape=box style="rounded, filled"]
+	"Read Input Text" [color="#FF9966" fillcolor="#FFCC99" fontcolor="#4d4d4d" shape=box style="rounded, filled"]
+	"Graph Construction Completed" [color="#FF9966" fillcolor="#FFCC99" fontcolor="#4d4d4d" shape=box style="rounded, filled"]
+	Start [color="#FF9966" fillcolor="#FFCC99" fontcolor="#4d4d4d" shape=box style="rounded, filled"]
+	"For Each Pair of Consecutive Words" [color="#FF9966" fillcolor="#FFCC99" fontcolor="#4d4d4d" shape=box style="rounded, filled"]
+	Start -> "Read Input Text" [color="#FF9966" fontcolor="#CC6600" fontsize=10]
+	"Read Input Text" -> "Split Text into Words" [color="#FF9966" fontcolor="#CC6600" fontsize=10]
+	"Split Text into Words" -> "Initialize Graph" [color="#FF9966" fontcolor="#CC6600" fontsize=10]
+	"Initialize Graph" -> "For Each Pair of Consecutive Words" [color="#FF9966" fontcolor="#CC6600" fontsize=10]
+	"For Each Pair of Consecutive Words" -> "Add/Update Edge in Graph" [color="#FF9966" fontcolor="#CC6600" fontsize=10]
+	"Add/Update Edge in Graph" -> "Graph Construction Completed" [color="#FF9966" fontcolor="#CC6600" fontsize=10]
+	"Graph Construction Completed" -> End [color="#FF9966" fontcolor="#CC6600" fontsize=10]
+}

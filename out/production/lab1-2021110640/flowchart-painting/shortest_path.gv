@@ -1,0 +1,19 @@
+// shortest_path
+digraph {
+	rankdir=LR
+	End [color="#FF9966" fillcolor="#FFCC99" fontcolor="#4d4d4d" shape=box style="rounded, filled"]
+	"Explore Neighbors" [color="#FF9966" fillcolor="#FFCC99" fontcolor="#4d4d4d" shape=box style="rounded, filled"]
+	"Return Shortest Path and Distance" [color="#FF9966" fillcolor="#FFCC99" fontcolor="#4d4d4d" shape=box style="rounded, filled"]
+	"Start from First Word" [color="#FF9966" fillcolor="#FFCC99" fontcolor="#4d4d4d" shape=box style="rounded, filled"]
+	"Update Distances and Paths" [color="#FF9966" fillcolor="#FFCC99" fontcolor="#4d4d4d" shape=box style="rounded, filled"]
+	"Initialize BFS/Dijkstra Structures" [color="#FF9966" fillcolor="#FFCC99" fontcolor="#4d4d4d" shape=box style="rounded, filled"]
+	"If Second Word Reached" [color="#FF9966" fillcolor="#FFCC99" fontcolor="#4d4d4d" shape=box style="rounded, filled"]
+	Start [color="#FF9966" fillcolor="#FFCC99" fontcolor="#4d4d4d" shape=box style="rounded, filled"]
+	Start -> "Initialize BFS/Dijkstra Structures" [color="#FF9966" fontcolor="#CC6600" fontsize=10]
+	"Initialize BFS/Dijkstra Structures" -> "Start from First Word" [color="#FF9966" fontcolor="#CC6600" fontsize=10]
+	"Start from First Word" -> "Explore Neighbors" [color="#FF9966" fontcolor="#CC6600" fontsize=10]
+	"Explore Neighbors" -> "Update Distances and Paths" [color="#FF9966" fontcolor="#CC6600" fontsize=10]
+	"Update Distances and Paths" -> "If Second Word Reached" [color="#FF9966" fontcolor="#CC6600" fontsize=10]
+	"If Second Word Reached" -> "Return Shortest Path and Distance" [color="#FF9966" fontcolor="#CC6600" fontsize=10]
+	"Return Shortest Path and Distance" -> End [color="#FF9966" fontcolor="#CC6600" fontsize=10]
+}

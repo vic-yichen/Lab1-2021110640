@@ -1,0 +1,19 @@
+// random_walk
+digraph {
+	rankdir=LR
+	"Choose Random Neighbor" [color="#FF9966" fillcolor="#FFCC99" fontcolor="#4d4d4d" shape=box style="rounded, filled"]
+	End [color="#FF9966" fillcolor="#FFCC99" fontcolor="#4d4d4d" shape=box style="rounded, filled"]
+	"For Specified Number of Steps or Until Stuck" [color="#FF9966" fillcolor="#FFCC99" fontcolor="#4d4d4d" shape=box style="rounded, filled"]
+	"Initialize Walk Path" [color="#FF9966" fillcolor="#FFCC99" fontcolor="#4d4d4d" shape=box style="rounded, filled"]
+	"Add Neighbor to Path" [color="#FF9966" fillcolor="#FFCC99" fontcolor="#4d4d4d" shape=box style="rounded, filled"]
+	"Return Walk Path" [color="#FF9966" fillcolor="#FFCC99" fontcolor="#4d4d4d" shape=box style="rounded, filled"]
+	"Choose Random Start Word" [color="#FF9966" fillcolor="#FFCC99" fontcolor="#4d4d4d" shape=box style="rounded, filled"]
+	Start [color="#FF9966" fillcolor="#FFCC99" fontcolor="#4d4d4d" shape=box style="rounded, filled"]
+	Start -> "Choose Random Start Word" [color="#FF9966" fontcolor="#CC6600" fontsize=10]
+	"Choose Random Start Word" -> "Initialize Walk Path" [color="#FF9966" fontcolor="#CC6600" fontsize=10]
+	"Initialize Walk Path" -> "For Specified Number of Steps or Until Stuck" [color="#FF9966" fontcolor="#CC6600" fontsize=10]
+	"For Specified Number of Steps or Until Stuck" -> "Choose Random Neighbor" [color="#FF9966" fontcolor="#CC6600" fontsize=10]
+	"Choose Random Neighbor" -> "Add Neighbor to Path" [color="#FF9966" fontcolor="#CC6600" fontsize=10]
+	"Add Neighbor to Path" -> "Return Walk Path" [color="#FF9966" fontcolor="#CC6600" fontsize=10]
+	"Return Walk Path" -> End [color="#FF9966" fontcolor="#CC6600" fontsize=10]
+}
