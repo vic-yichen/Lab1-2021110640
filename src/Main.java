@@ -3,6 +3,9 @@ import java.util.List;
 import java.util.Map; // 导入映射类
 import java.util.Scanner;
 
+/**
+    *这是一个主函数，用于用户使用和程序集成.
+ */
 public class Main {
     public static void main(String[] args) {
         TextToGraph graph = new TextToGraph(); // 创建一个文本到图形的转换对象
