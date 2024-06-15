@@ -57,41 +57,9 @@ public class Main {
                     word1 = scanner.nextLine();
                     System.out.print("Enter the second word (leave empty to calculate shortest paths to all nodes): ");
                     word2 = scanner.nextLine();
-                    int[] pathLength = new int[1]; // 存储最短路径长度，数组
 
+                    graph.calcShortestPath(word1,word2);
                     // 仅输入一个词
-                    if (word2.isEmpty()) {
-                        Map<String, Map<String, Integer>> graphData = graph.getGraph(); // 获取图的数据
-                        for (String node : graphData.keySet()) { // 遍历图中的每个节点
-                            if (!node.equals(word1)) { // 如果节点不是第一个单词
-                                List<List<String>> paths = graph.shortestPaths(word1, node, pathLength); // 计算到该节点的最短路径
-                                if (!paths.isEmpty()) { // 如果最短路径不为空
-                                    for (List<String> path : paths) { // 遍历最短路径列表
-                                        System.out.println("Shortest path: " + String.join("->", path) + ", Weight: " + pathLength[0]); // 打印最短路径及其权重
-                                    }
-                                    String outputFile = String.format("./out/text/shortest_path_%s_to_%s.dot", word1, node); // 定义输出文件路径
-                                    graph.saveToDotFile_color(outputFile, paths, pathLength[0]); // 将带有标记路径的DOT文件保存到指定路径
-                                    graph.showDirectedGraph(outputFile, String.format("./out/png/shortest_paths_%s_to_%s.png", word1, node)); // 展示最短路径的图形
-                                } else { // 如果最短路径为空
-                                    System.out.println("No shortest path found from " + word1 + " to " + node); // 打印未找到最短路径的消息
-                                }
-                            }
-                        }
-                    }
-                    // 输入两个单词
-                    else {
-                        List<List<String>> shortestPaths = graph.shortestPaths(word1, word2, pathLength); // 计算两个单词之间的最短路径
-                        if (!shortestPaths.isEmpty()) { // 如果最短路径不为空
-                            for (List<String> path : shortestPaths) { // 遍历最短路径列表
-                                System.out.println("Shortest path: " + String.join("->", path) + ", Weight: " + pathLength[0]); // 打印最短路径及其权重
-                            }
-                            String outputFile = "./out/text/shortest_path.dot"; // 定义输出文件路径
-                            graph.saveToDotFile_color(outputFile, shortestPaths, pathLength[0]); // 将带有标记路径的DOT文件保存到指定路径
-                            graph.showDirectedGraph(outputFile, "./out/png/shortest_paths.png"); // 展示最短路径的图形
-                        } else { // 如果最短路径为空
-                            System.out.println("No shortest path found from " + word1 + " to " + word2); // 打印未找到最短路径的消息
-                        }
-                    }
                     break;
 
                 case "5":
