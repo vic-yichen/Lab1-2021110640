@@ -1,0 +1,19 @@
+// query_bridge_words
+digraph {
+	rankdir=LR
+	End [color="#FF9966" fillcolor="#FFCC99" fontcolor="#4d4d4d" shape=box style="rounded, filled"]
+	"Check if Neighbor Connects to Second Word" [color="#FF9966" fillcolor="#FFCC99" fontcolor="#4d4d4d" shape=box style="rounded, filled"]
+	"Get Neighbors of First Word" [color="#FF9966" fillcolor="#FFCC99" fontcolor="#4d4d4d" shape=box style="rounded, filled"]
+	"Return Bridge Words" [color="#FF9966" fillcolor="#FFCC99" fontcolor="#4d4d4d" shape=box style="rounded, filled"]
+	"Check if Words are in Graph" [color="#FF9966" fillcolor="#FFCC99" fontcolor="#4d4d4d" shape=box style="rounded, filled"]
+	"If Yes, Add to Bridge Words" [color="#FF9966" fillcolor="#FFCC99" fontcolor="#4d4d4d" shape=box style="rounded, filled"]
+	Start [color="#FF9966" fillcolor="#FFCC99" fontcolor="#4d4d4d" shape=box style="rounded, filled"]
+	"For Each Neighbor" [color="#FF9966" fillcolor="#FFCC99" fontcolor="#4d4d4d" shape=box style="rounded, filled"]
+	Start -> "Check if Words are in Graph" [color="#FF9966" fontcolor="#CC6600" fontsize=10]
+	"Check if Words are in Graph" -> "Get Neighbors of First Word" [color="#FF9966" fontcolor="#CC6600" fontsize=10]
+	"Get Neighbors of First Word" -> "For Each Neighbor" [color="#FF9966" fontcolor="#CC6600" fontsize=10]
+	"For Each Neighbor" -> "Check if Neighbor Connects to Second Word" [color="#FF9966" fontcolor="#CC6600" fontsize=10]
+	"Check if Neighbor Connects to Second Word" -> "If Yes, Add to Bridge Words" [color="#FF9966" fontcolor="#CC6600" fontsize=10]
+	"If Yes, Add to Bridge Words" -> "Return Bridge Words" [color="#FF9966" fontcolor="#CC6600" fontsize=10]
+	"Return Bridge Words" -> End [color="#FF9966" fontcolor="#CC6600" fontsize=10]
+}

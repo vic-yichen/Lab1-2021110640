@@ -5,9 +5,9 @@ digraph G {
     "new" -> "life" [label="3"];
     "worlds" -> "to" [label="1"];
     "explore" -> "strange" [label="1"];
-    "embrace" -> "the" [label="2", color="green"];
+    "embrace" -> "the" [label="2"];
     "cosmos" -> "to" [label="2"];
-    "uncover" -> "the" [label="2", color="orange"];
+    "uncover" -> "the" [label="2"];
     "stars" -> "wyc" [label="1"];
     "stars" -> "to" [label="1"];
     "seek" -> "out" [label="3"];
@@ -27,11 +27,10 @@ digraph G {
     "of" -> "the" [label="2"];
     "of" -> "space" [label="2"];
     "to" -> "explore" [label="1"];
-    "to" -> "embrace" [label="2", color="green"];
-    "to" -> "uncover" [label="2", color="orange"];
+    "to" -> "embrace" [label="2"];
+    "to" -> "uncover" [label="2"];
     "to" -> "seek" [label="3"];
     "to" -> "venture" [label="2"];
     "vast" -> "cosmos" [label="2"];
     "civilizations" -> "to" [label="3"];
-    "Path length = 4" [label="Path length = 4", color="black", shape=none];
 }
